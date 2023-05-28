@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import IConfig from '../src/interfaces/IConfig';
 
 dotenv.config({ path: `./config/env/${process.env.NODE_ENV}.env` });
+console.log(`Mode: ${process.env.NODE_ENV}`);
 
 const config: IConfig = {
   env: process.env.NODE_ENV || 'development',
