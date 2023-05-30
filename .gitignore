@@ -1,4 +1,4 @@
- 
+
 # Node.js gitignore
 # ------------------
 # Created by https://www.gitignore.io/api/node
@@ -74,4 +74,8 @@ typings/
 public/sw.js
 public/workbox-*.js
 .DS_Store
+
+# Do not load dist folder as it is the build of ts
+dist/
+
 
