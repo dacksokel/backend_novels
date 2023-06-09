@@ -17,7 +17,23 @@ const chapterSchema = new Schema({
   chapter: {
     type: String,
     required: true
-  } 
+  },
+  lang: {
+    type: String,
+    required: true
+  },
+  source: {
+    type: String,
+    required: true
+  },
+  chapterNumber: {
+    type: Number,
+    required: true
+  },
+  author: {
+    type: String,
+    requiered: true
+  }
 }, { timestamps: true });
 
 const model = createModel<INovel>('Novels', chapterSchema);

@@ -8,16 +8,20 @@ class NovelsControllers {
     res.status(200).json({ status: 'OK' });
   }
 
-  saveNovels(req: Request, res: Response) {
+  async saveNovels (req: Request, res: Response) {
     const novel = (req as any).body;
     console.log(novel);
-
-
-    res.status(200).json({ status: 'OK' });
+    const saveNovel = new NovelModel(novel);
+    try {
+        await saveNovel.save();
+        res.status(200).json({status: 'Success'});
+    } catch (error) {
+        res.status(500).json({status: 'Error saving novel'});
+    }
 
   }
 
-  async getNovelsPaginated(req: Request, res: Response) {
+  async getNovelsPaginated (req: Request, res: Response) {
     const page: number = parseInt(req.query.page as string) || 1;
     const limit: number = parseInt(req.query.limit as string) || 100;
     const startIndex: number = (page - 1) * limit;
