@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from 'express';
+import e, { NextFunction, Request, Response } from 'express';
 import NovelModel from '../models/NovelsModels';
-
+import NovelsServices from '../services/NovelsServices';
 
 class NovelsControllers {
 
@@ -8,14 +8,12 @@ class NovelsControllers {
     res.status(200).json({ status: 'OK' });
   }
 
-  async saveNovels(req: Request, res: Response) {
+  async saveNovelController (req: Request, res: Response) {
     const novel = (req as any).body;
-    const saveNovel = new NovelModel(novel);
-    try {
-      console.log(novel);
-      await saveNovel.save();
+    const responseSaveNovel = await NovelsServices.saveNovelService(novel);
+    if (responseSaveNovel) {
       res.status(200).json({ status: 'Success' });
-    } catch (error) {
+    }else {
       res.status(500).json({ status: 'Error saving novel' });
     }
 
