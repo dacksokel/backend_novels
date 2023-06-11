@@ -1,12 +1,21 @@
-import NovelModel from '../models/NovelsModels';
+import NovelModel from '../models/Chapter';
+import IChapter from '../interfaces/IChapter';
+import IChaptersPaginated from '../interfaces/IChaptersPaginated';
 import INovel from '../interfaces/INovel';
 
 class NovelsServices {
 
-    async saveNovelService(novel: INovel): Promise<boolean> {
+    async saveNovelService(novel: INovel, chapter: IChapter): Promise<boolean> {
+        const existingNovel = await NovelModel.findOne({title: chapter.title});
+        if (existingNovel) {
+            return false;
+        }
+        const existingChapter = await NovelModel.findOne({chapterNumber: chapter.chapterNumber});
+        if (existingChapter) {
+            return false;
+        }
         const saveNovel = new NovelModel(novel);
         try {
-            console.log(novel);
             await saveNovel.save();
             return true;
         } catch (error) {
@@ -14,15 +23,14 @@ class NovelsServices {
         }
     }
 
-    async getNovelsPaginatedServices(page: number, limit: number) {
-        console.log(` page: ${page} limit: ${limit}`);
+    
+    async getNovelsPaginatedServices (page: number, limit: number): Promise<IChaptersPaginated> {
         const startIndex: number = (page - 1) * limit;
         const endIndex: number = page * limit;
+        const results: IChaptersPaginated = {};
 
         try {
-            const results: any = {};
             const count = await NovelModel.countDocuments();
-            console.log(`this it's the count novels: ${count}`);
             if (endIndex < count) {
                 results.next = {
                     page: page + 1,
@@ -43,6 +51,7 @@ class NovelsServices {
             return e;
         }
     }
+
 
 }
 

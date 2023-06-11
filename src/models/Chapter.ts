@@ -1,14 +1,11 @@
 
-import { Schema } from 'mongoose';
-import INovel from '../interfaces/INovel';
+import mongoose, { Schema } from 'mongoose';
+import IChapter from '../interfaces/IChapter';
 import { createModel } from '../utils/mongoose-util';
 
 
 const chapterSchema = new Schema({
-  novelName: {
-    type: String,
-    required: true
-  },
+  novel: { type: mongoose.Schema.Types.ObjectId, ref: 'Novel' },
   title: {
     type: String,
     required: true,
@@ -29,15 +26,11 @@ const chapterSchema = new Schema({
   chapterNumber: {
     type: Number,
     required: true
-  },
-  author: {
-    type: String,
-    requiered: true
   }
 }, { timestamps: true });
 
-const model = createModel<INovel>('Novels', chapterSchema);
+const model = createModel<IChapter>('Chapters', chapterSchema);
 export default model;
-export { model as Novels, INovel };
+export { model as Chapter, IChapter };
 
 
